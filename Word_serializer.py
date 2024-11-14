@@ -24,17 +24,13 @@ test_data = {
         "telefon": 36_20_345_67_89,
         "oktatas_datuma": 2020_05_06,
         "oktatasi_azonosito": "TGK-340",
-        
-        "felhasznalo":"Kis Pista2",
-        "munkahelyi vezeto": "Vezető neve",
-        "rendszer_tulajdonos":"Rendszertulajdonos_Név",
         "rendszer_adminisztrator":"Rendszeradminisztrátor_Név",
         }
 
 #Létrehozom a dokumentumot:
 document = Document()
 
-table = document.add_table(rows=15,cols=3)
+table = document.add_table(rows=15,cols=3,style='TableGrid')
 #Beállítom a betű típust:
 style = document.styles["Normal"]
 style.font.name = "Calibri"

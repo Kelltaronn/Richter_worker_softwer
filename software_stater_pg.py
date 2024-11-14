@@ -3,6 +3,7 @@ A szükséges könyvtár betöltések és egyéb futás előtti  műveletek hely
 """
 
 #Import's:
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget, 
                              QPushButton, 
                              QVBoxLayout,
@@ -13,8 +14,14 @@ from PyQt6.QtWidgets import (QWidget,
                              QLabel,
                              QListWidget,
                              QMessageBox,
-                             QCheckBox
+                             QCheckBox,
+                             QRadioButton,
+                             QButtonGroup,
+                             QFileDialog
                              )
+#Other Modules:
+from Standardized_input_field import standardized_input_field
+
 
 """
 Ez A szoftver GUI-ja itt változtathatóak az oldalak számai funkciói a rajtuk lévő elemek mennyisége és minősége.
@@ -30,7 +37,7 @@ class MainWindow(QMainWindow):
         # Alap funkciók és méretek a software-hez.
         
         self.setWindowTitle("Main Window with Navigation")
-        self.setGeometry(200, 200, 400, 300)
+        self.setGeometry(200, 200, 1000, 800)
 
         """
          Ez a rész határozza meg hogy az egymáson lévő oldalak-ból mennyi legyen illetve hogy az oldalak
@@ -76,13 +83,16 @@ class MainWindow(QMainWindow):
         # Gombok a kezdő lapon.
         page1_button = QPushButton("Hozzáadás")
         page2_button = QPushButton("Keresés")
+        find_table_button = QPushButton("Tallóz")
 
         # Ezek kötik össze a gombokat a funkciókkal ha hibába futsz nézd meg lejjebb hogy a funkció jó-e vagy van.
         page1_button.clicked.connect(self.show_page1)
         page2_button.clicked.connect(self.show_page2)
+        find_table_button.clicked.connect(self.open_file_system)
 
         layout.addWidget(page1_button)
         layout.addWidget(page2_button)
+        layout.addWidget(find_table_button)
 
         self.main_page.setLayout(layout)
 
@@ -91,41 +101,197 @@ class MainWindow(QMainWindow):
     Ez itt a hozzáadási oldal:
     """
     def create_page1(self):
+        # Ezzel lehet állítani a  szélességét az input mezőnek.
+        standardized_label_width = 400
+        standardized_input_width = 400
+
         self.page1 = QWidget()
         layout = QVBoxLayout()
 
         # Itt csinálom meg az egymás alatt lévő input dobozokat.
         form_layout = QVBoxLayout()
 
-        #Input doboz a névhez:
-        name_layout = QHBoxLayout()
-        name_label = QLabel("Név:")
-        self.name_input = QLineEdit()
+        #Input 1:
+        system_serial_name_layout = QHBoxLayout()
 
-        name_layout.addWidget(name_label)
-        name_layout.addWidget(self.name_input)
+        system_serial_name_label = QLabel("Rendszer Azonosítója és Megnevezése:")
+        system_serial_name_label.setFixedWidth(standardized_label_width)
 
-        #Input doboz a korhoz.
-        age_layout = QHBoxLayout()
-        age_label = QLabel("Kor:")
-        self.age_input = QLineEdit()
+        self.system_serial_name_input = QLineEdit()
+        self.system_serial_name_input.setFixedWidth(standardized_input_width)
 
-        #Ráteszem az age inputokat az oldalra
-        age_layout.addWidget(age_label)
-        age_layout.addWidget(self.age_input)
+        system_serial_name_layout.addWidget(system_serial_name_label,alignment=Qt.AlignmentFlag.AlignRight)
+        system_serial_name_layout.addWidget(self.system_serial_name_input,alignment=Qt.AlignmentFlag.AlignLeft)
 
-        #Input doboz a foglalkozáshoz.
-        profession_layout = QHBoxLayout()
-        profession_label = QLabel("Beosztás:")
-        self.profession_input = QLineEdit()
+        #Input 2:.
+        system_owner_layout = QHBoxLayout()
 
-        profession_layout.addWidget(profession_label)
-        profession_layout.addWidget(self.profession_input)
+        system_owner_label = QLabel("Rendszer Tulajdonos:")
+        system_owner_label.setFixedWidth(standardized_label_width)
 
-        # Az előző inputokat hozzá kell adnom egy input Layout form-hoz!
-        form_layout.addLayout(name_layout)
-        form_layout.addLayout(age_layout)
-        form_layout.addLayout(profession_layout)
+        self.system_owner_input= QLineEdit()
+        self.system_owner_input.setFixedWidth(standardized_input_width)
+
+        system_owner_layout.addWidget(system_owner_label,alignment=Qt.AlignmentFlag.AlignRight)
+        system_owner_layout.addWidget(self.system_owner_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+        #Input 3:
+        user_name_layout = QHBoxLayout()
+
+        user_name_label = QLabel("Felhasználó Neve:")
+        user_name_label.setFixedWidth(standardized_label_width)
+        
+        self.user_name_input = QLineEdit()
+        self.user_name_input.setFixedWidth(standardized_input_width)
+
+        user_name_layout.addWidget(user_name_label,alignment=Qt.AlignmentFlag.AlignRight)
+        user_name_layout.addWidget(self.user_name_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+        #Input 4:
+        work_task_layout = QHBoxLayout()
+
+        work_task_label = QLabel("Felhasználó Feladatköre a rendszerben:")
+        work_task_label.setFixedWidth(standardized_label_width)
+
+        self.work_task_input = QLineEdit()
+        self.work_task_input.setFixedWidth(standardized_input_width)
+        
+        work_task_layout.addWidget(work_task_label,alignment=Qt.AlignmentFlag.AlignRight)
+        work_task_layout.addWidget(self.work_task_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+        #Input 5:
+        user_number_layout = QHBoxLayout()
+
+        user_number_label = QLabel("Törzs száma:")
+        user_number_label.setFixedWidth(standardized_label_width)
+
+        self.user_number_input = QLineEdit()
+        self.user_number_input.setFixedWidth(standardized_input_width)
+
+        user_number_layout.addWidget(user_number_label,alignment=Qt.AlignmentFlag.AlignRight)
+        user_number_layout.addWidget(self.user_number_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+
+        #Input 6:
+        login_name_layout = QHBoxLayout()
+
+        login_name_label = QLabel("Login Név:")
+        login_name_label.setFixedWidth(standardized_label_width)
+
+        self.login_name_input = QLineEdit()
+        self.login_name_input.setFixedWidth(standardized_input_width)
+
+        login_name_layout.addWidget(login_name_label,alignment=Qt.AlignmentFlag.AlignRight)
+        login_name_layout.addWidget(self.login_name_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+
+        #Input 7:
+        organisation_unit_layout = QHBoxLayout()
+
+        organisation_unit_label = QLabel("Szervezeti egység:")
+        organisation_unit_label.setFixedWidth(standardized_label_width)
+
+        self.organization_unit_input = QLineEdit()
+        self.organization_unit_input.setFixedWidth(standardized_input_width)
+
+        organisation_unit_layout.addWidget(organisation_unit_label,alignment=Qt.AlignmentFlag.AlignRight)
+        organisation_unit_layout.addWidget(self.organization_unit_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+
+        #Input 8:
+        phone_number_layout = QHBoxLayout()
+
+        phone_number_label = QLabel("Telefonszám:")
+        phone_number_label.setFixedWidth(standardized_label_width)
+
+        self.phone_number_input = QLineEdit()
+        self.phone_number_input .setFixedWidth(standardized_input_width)
+
+        phone_number_layout.addWidget(phone_number_label,alignment=Qt.AlignmentFlag.AlignRight)
+        phone_number_layout.addWidget(self.phone_number_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+
+        #Input 9:
+        date_of_education_layout = QHBoxLayout()
+
+        date_of_education_label = QLabel("Oktatás Dátuma:")
+        date_of_education_label.setFixedWidth(standardized_label_width)
+
+        self.date_of_education_input = QLineEdit()
+        self.date_of_education_input.setFixedWidth(standardized_input_width)
+
+        date_of_education_layout.addWidget(date_of_education_label,alignment=Qt.AlignmentFlag.AlignRight)
+        date_of_education_layout.addWidget(self.date_of_education_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+
+        #Input 10:
+        education_serial_number_layout = QHBoxLayout()
+
+        education_serial_number_label = QLabel("Oktatási Azonosító:")
+        education_serial_number_label.setFixedWidth(standardized_label_width)
+
+        self.education_serial_number_input = QLineEdit()
+        self.education_serial_number_input.setFixedWidth(standardized_input_width)
+
+        education_serial_number_layout.addWidget(education_serial_number_label,alignment=Qt.AlignmentFlag.AlignRight)
+        education_serial_number_layout.addWidget(self.education_serial_number_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+
+        #Input 11:
+        server_administrator_layout = QHBoxLayout()
+
+        server_administrator_label = QLabel("Rendszer Adminisztrátor:")
+        server_administrator_label.setFixedWidth(standardized_label_width)
+
+        self.server_administrator_input = QLineEdit()
+        self.server_administrator_input.setFixedWidth(standardized_input_width)
+
+        server_administrator_layout.addWidget(server_administrator_label,alignment=Qt.AlignmentFlag.AlignRight)
+        server_administrator_layout.addWidget(self.server_administrator_input,alignment=Qt.AlignmentFlag.AlignLeft)
+
+        """
+        #Checkbox items:
+        """
+        #Checkbox 1:
+        checkbox_widget = QWidget()
+        checkbox_user_layout = QHBoxLayout()
+
+        new_user_label = QRadioButton("Új Felhasználó:")
+        change_user_label = QRadioButton("Módosítás:")
+        cancel_user_label = QRadioButton("Visszavonás:")
+
+        checkbox_user_layout.addWidget(new_user_label,alignment=Qt.AlignmentFlag.AlignCenter)
+        checkbox_user_layout.addWidget(change_user_label,alignment=Qt.AlignmentFlag.AlignCenter)
+        checkbox_user_layout.addWidget(cancel_user_label,alignment=Qt.AlignmentFlag.AlignCenter)
+
+        self.user_action_group = QButtonGroup()
+        self.user_action_group.addButton(new_user_label, id=1)
+        self.user_action_group.addButton(change_user_label, id=2)
+        self.user_action_group.addButton(cancel_user_label, id=3)
+
+        """
+        #Az előző text inputokat hozzáadás a  layouthoz:
+        """
+
+
+
+        # Az Indexelt text inputok hozzáadása az formhoz:
+        form_layout.addLayout(system_serial_name_layout)
+        form_layout.addLayout(system_owner_layout)
+        form_layout.addLayout(user_name_layout)
+        form_layout.addLayout(work_task_layout)
+        form_layout.addLayout(user_number_layout)
+        form_layout.addLayout(login_name_layout)
+        form_layout.addLayout(organisation_unit_layout)
+        form_layout.addLayout(phone_number_layout)
+        form_layout.addLayout(date_of_education_layout)
+        form_layout.addLayout(education_serial_number_layout)
+        form_layout.addLayout(server_administrator_layout)
+
+        # A checkbox hozzáadás:
+        form_layout.addLayout(checkbox_user_layout)
+
+        
 
         # Form hozzá adása a layouthoz.
         layout.addLayout(form_layout)
@@ -142,6 +308,8 @@ class MainWindow(QMainWindow):
 
         # Létre hozom a layout-ot az egyes oldalhoz.
         self.page1.setLayout(layout)
+
+
     """
     Ez választható kereső oldalas GUI az oldalon elhelyzkednek a beirható kereső sorok, az egyes sorok ki-be lesznek
     kapcsolhatóak attól függően mire miért keresünk rá.
@@ -289,6 +457,7 @@ class MainWindow(QMainWindow):
         age = self.age_input.text()
         profession = self.profession_input.text()
         self.process_data(name, age, profession)
+        print("I grabbed data")
 
 
     """
@@ -355,3 +524,15 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Az elem törölve", "A kiválasztott elem kilett törölve.")
         else:
             QMessageBox.warning(self, "Nincs kiválaszott elem", "Kérlek válaszd melyik elemet szertnéd tölteni.")
+    
+
+    """
+    A Fájl tallózás rendszer megírása:
+    """
+
+    def open_file_system(self):
+        file_dialog = QFileDialog()
+        file_path = file_dialog.getOpenFileName(self,"Fájl Keresése","",filter="*.txt")
+
+        if file_path:
+            print(f"Selected file: {file_path}")  # Do something with the selected file path
