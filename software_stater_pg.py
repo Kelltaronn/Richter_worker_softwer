@@ -1,7 +1,8 @@
 """
 A szükséges könyvtár betöltések és egyéb futás előtti  műveletek helyei
 """
-
+from File_searching_module import open_file_system
+from error_handling_messages import warning_error_message
 #Import's:
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget, 
@@ -17,7 +18,8 @@ from PyQt6.QtWidgets import (QWidget,
                              QCheckBox,
                              QRadioButton,
                              QButtonGroup,
-                             QFileDialog
+                             QFileDialog,
+                             QApplication
                              )
 #Other Modules:
 from Standardized_input_field import standardized_input_field
@@ -33,6 +35,23 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         
+        try:
+            database_file = open("local.txt","r",errors='strict')
+        except FileNotFoundError:
+            message = " Hiányzó fájl"
+            information = "A program hibába ütközött nem találja a szükséges adat bázist."
+            warning_error_message(self,message,information)
+
+
+            selected_file = open_file_system(self)
+            if not database_file:
+                QApplication.quit()
+            try:
+                database_file = open(selected_file,"r",errors='strict')
+            except Exception as e:
+                warning_error_message(self, "Hiba a fájl megnyitásakor", f"A fájlt nem sikerült megnyitni: {str(e)}")
+                QApplication.quit()
+                
 
         # Alap funkciók és méretek a software-hez.
         
@@ -77,6 +96,18 @@ class MainWindow(QMainWindow):
     """
     def create_main_page(self):
         # Ez itt a főoldal.
+        try:
+            database_file = open("local.txt","r",errors='strict')
+        except FileNotFoundError:
+
+            database_file = open_file_system(self)
+            if database_file == None:
+                print(database_file)
+                database_file.close()
+                self.close()
+            else:
+                pass
+
         self.main_page = QWidget()
         layout = QVBoxLayout()
 
@@ -88,7 +119,7 @@ class MainWindow(QMainWindow):
         # Ezek kötik össze a gombokat a funkciókkal ha hibába futsz nézd meg lejjebb hogy a funkció jó-e vagy van.
         page1_button.clicked.connect(self.show_page1)
         page2_button.clicked.connect(self.show_page2)
-        find_table_button.clicked.connect(self.open_file_system)
+        find_table_button.clicked.connect(lambda: open_file_system(self))
 
         layout.addWidget(page1_button)
         layout.addWidget(page2_button)
@@ -529,10 +560,11 @@ class MainWindow(QMainWindow):
     """
     A Fájl tallózás rendszer megírása:
     """
-
+"""
     def open_file_system(self):
         file_dialog = QFileDialog()
         file_path = file_dialog.getOpenFileName(self,"Fájl Keresése","",filter="*.txt")
 
         if file_path:
             print(f"Selected file: {file_path}")  # Do something with the selected file path
+"""

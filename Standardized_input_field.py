@@ -20,3 +20,4 @@ def standardized_input_field(label_text):
     input_field = QLineEdit()
     input_field.setFixedWidth(input_fixed_width)
     return input_field
+
