@@ -4,28 +4,33 @@ from docx.shared import Cm
 #Kezdeti teszt adatok később figyelni kell a serializálásra hogy  jól adjuk vissza lehet hogy
 # jobb lenne nem kulcs indexek alapján pharsolnám be.
 #ERRE MINDENKÉPPEN FIGYLEJ ODA A PANDAS BEKÖTÉSNÉL.
+
+# Az elsőkét oszlop a systemid Gépüzem részére nem szükslégesek.
+# Rendszermegnevzés fajták:
 test_data = {
         #Egy oszlopos cellák:
-        "rendszer_azonositoja_es_megnevezese":6578,
-        "rendszer_tulajdonos":"Tulajdonos",
-        "munkahelyi_vezeto": "Vezető",
-        "felhasznalo_neve":"Kis Pista",
-        "felhasznalo_feladatkore a rendszerben": "Operátor",
+        "rendszer_azonositoja_es_megnevezese":"lsd. csatolt",
+        "rendszer_tulajdonos":"Pinczés Zoltán",
+        "munkahelyi_vezeto": "Gulyás Csaba Lajos",
+        "felhasznalo_neve":"Kis Pista",# Változó 1
+        "felhasznalo_feladatkore a rendszerben": "Operátor",# lenyíló lista amelyhez lehet adni  vagy törölni, állandó értéken mozog.Ez az excellben lesz bent.
 
-        "torzs_szama":23456,
-        "login_nev":"Felhasznalónév",
-        "szervezeti_egyseg":"RGK",
+        "torzs_szama":23456, #Főkulcs adat.
+        "login_nev":"Felhasznalónév",# Adott.
+        "szervezeti_egyseg":"RGK",#AD Szerint.
 
-        "uj_felhasznalo":False,
-        "modositas":False,
+        "uj_felhasznalo":False,#
+        "modositas":False,#
         "visszavonas":False,
-        "elektronikus_felelosseg":False,
 
+        "elektronikus_felelosseg":False,
+        "igénylo_azonositoja": "RGKCORP_KIS_XXX",#Adott RGKCORP-KIS-XXX növekményesen fusson. A lépéseket könyveljük le tehát folyamtosan kell növelni.
         "telefon": 36_20_345_67_89,
-        "oktatas_datuma": 2020_05_06,
-        "oktatasi_azonosito": "TGK-340",
-        "rendszer_adminisztrator":"Rendszeradminisztrátor_Név",
+        "oktatas_datuma": "lsd.csatolt lista.",# lásd csatolt lista vagy "ha egy jog van akkor is lesz csatolt lista 1 jog kérvény lesz benne. MINDENKÉPPEN LISTÁZD!!!"
+        "oktatasi_azonosito": "lsd.csatolt lista",# lásd csatolt lista vagy  Üresen marad!!!!
+        "rendszer_adminisztrator":"",#Üresen maradó.
         }
+
 
 #Létrehozom a dokumentumot:
 document = Document()

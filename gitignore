@@ -1,2 +1,4 @@
 #Ignore all doc files:
-*.doc*
+*.doc
+*.xls
+*.xlms

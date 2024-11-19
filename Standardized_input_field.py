@@ -10,14 +10,16 @@ from PyQt6.QtWidgets import (QWidget,
 Ez a fájl az általánosított Input fieldekhez lett írva:
 """
 
-label_width_setting = 400 # Ez változtatja a jobb oldali szöveg mező méretét
-input_fixed_width = 400 #Ez Változtatja  az input field mérettét.
-def standardized_input_field(label_text):
-    layout = QHBoxLayout
-    label = QLabel(label_text)
-    label.setFixedWidth(label_width_setting)
-    label.setAlignment(Qt.AlignmentFlag.AlignRight)
-    input_field = QLineEdit()
-    input_field.setFixedWidth(input_fixed_width)
-    return input_field
+def standardized_input_field_generator(self,name_of_the_generator,standardized_label_width,standardized_input_width):
+    layout = QHBoxLayout()
+
+    label = QLabel(name_of_the_generator)
+    label.setFixedWidth(standardized_label_width)
+
+    name_input = QLineEdit()
+    name_input.setFixedWidth(standardized_input_width)
+    layout.addWidget(label,alignment=Qt.AlignmentFlag.AlignRight)
+    layout.addWidget(name_input,alignment=Qt.AlignmentFlag.AlignLeft)
+    print("Létrehoztam a Labelt = {} és az input fieldet".format(name_of_the_generator))
+    return layout
 

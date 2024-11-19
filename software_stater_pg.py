@@ -19,10 +19,12 @@ from PyQt6.QtWidgets import (QWidget,
                              QRadioButton,
                              QButtonGroup,
                              QFileDialog,
-                             QApplication
+                             QApplication,
+                             QSpacerItem,
+                             QSizePolicy
                              )
 #Other Modules:
-from Standardized_input_field import standardized_input_field
+from Standardized_input_field import standardized_input_field_generator
 
 
 """
@@ -34,7 +36,7 @@ A MainWindow class foglalja magába mind ezt.
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        
+        """
         try:
             database_file = open("local.txt","r",errors='strict')
         except FileNotFoundError:
@@ -51,6 +53,7 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 warning_error_message(self, "Hiba a fájl megnyitásakor", f"A fájlt nem sikerült megnyitni: {str(e)}")
                 QApplication.quit()
+                """
                 
 
         # Alap funkciók és méretek a software-hez.
@@ -96,10 +99,12 @@ class MainWindow(QMainWindow):
     """
     def create_main_page(self):
         # Ez itt a főoldal.
+        """
+        EZ ITT S FILE VALIDÁTOR EZT ITT ELLENŐRZI A PROGRAM MEGNYITÁSAKOR A FILE JELENLÉTÉT.
+        
         try:
             database_file = open("local.txt","r",errors='strict')
         except FileNotFoundError:
-
             database_file = open_file_system(self)
             if database_file == None:
                 print(database_file)
@@ -107,7 +112,7 @@ class MainWindow(QMainWindow):
                 self.close()
             else:
                 pass
-
+        """
         self.main_page = QWidget()
         layout = QVBoxLayout()
 
@@ -141,155 +146,53 @@ class MainWindow(QMainWindow):
 
         # Itt csinálom meg az egymás alatt lévő input dobozokat.
         form_layout = QVBoxLayout()
+        """
+        próba generátor:
+        def standardized input_field generator(self,name_of_the_generator,standardized width):
+            layout = QHBoxLayout()
 
+            label = QLabel(name_of_the_generator)
+            label.setFixedWidth(standardized_label_width)
+
+            name_input = QLineEdit()
+            name_input.setFixedWidth(standardized_input_width)
+            layout.addWidget(label,aligment=Qt.AligmentFlag.AlignRight)
+            layout.addWidget(name_input,aligment=Qt.AligmentFlag.AlignLeft)
+        """
         #Input 1:
-        system_serial_name_layout = QHBoxLayout()
-
-        system_serial_name_label = QLabel("Rendszer Azonosítója és Megnevezése:")
-        system_serial_name_label.setFixedWidth(standardized_label_width)
-
-        self.system_serial_name_input = QLineEdit()
-        self.system_serial_name_input.setFixedWidth(standardized_input_width)
-
-        system_serial_name_layout.addWidget(system_serial_name_label,alignment=Qt.AlignmentFlag.AlignRight)
-        system_serial_name_layout.addWidget(self.system_serial_name_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
+        system_serial_name_layout =  standardized_input_field_generator(self,"Rendszer Azonosítója és Megnvezése:",standardized_label_width,standardized_input_width)
         #Input 2:.
-        system_owner_layout = QHBoxLayout()
-
-        system_owner_label = QLabel("Rendszer Tulajdonos:")
-        system_owner_label.setFixedWidth(standardized_label_width)
-
-        self.system_owner_input= QLineEdit()
-        self.system_owner_input.setFixedWidth(standardized_input_width)
-
-        system_owner_layout.addWidget(system_owner_label,alignment=Qt.AlignmentFlag.AlignRight)
-        system_owner_layout.addWidget(self.system_owner_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
+        system_owner_layout = standardized_input_field_generator(self,"Rendszer Tulajdonos:",standardized_label_width,standardized_input_width)
         #Input 3:
-        user_name_layout = QHBoxLayout()
-
-        user_name_label = QLabel("Felhasználó Neve:")
-        user_name_label.setFixedWidth(standardized_label_width)
-        
-        self.user_name_input = QLineEdit()
-        self.user_name_input.setFixedWidth(standardized_input_width)
-
-        user_name_layout.addWidget(user_name_label,alignment=Qt.AlignmentFlag.AlignRight)
-        user_name_layout.addWidget(self.user_name_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
+        user_name_layout = standardized_input_field_generator(self,"Felhasználó Neve:",standardized_label_width,standardized_input_width)
         #Input 4:
-        work_task_layout = QHBoxLayout()
-
-        work_task_label = QLabel("Felhasználó Feladatköre a rendszerben:")
-        work_task_label.setFixedWidth(standardized_label_width)
-
-        self.work_task_input = QLineEdit()
-        self.work_task_input.setFixedWidth(standardized_input_width)
-        
-        work_task_layout.addWidget(work_task_label,alignment=Qt.AlignmentFlag.AlignRight)
-        work_task_layout.addWidget(self.work_task_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
+        work_task_layout = standardized_input_field_generator(self,"Felhasznaló Feladatköre a rendszerben",standardized_label_width,standardized_input_width)
         #Input 5:
-        user_number_layout = QHBoxLayout()
-
-        user_number_label = QLabel("Törzs száma:")
-        user_number_label.setFixedWidth(standardized_label_width)
-
-        self.user_number_input = QLineEdit()
-        self.user_number_input.setFixedWidth(standardized_input_width)
-
-        user_number_layout.addWidget(user_number_label,alignment=Qt.AlignmentFlag.AlignRight)
-        user_number_layout.addWidget(self.user_number_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
-
+        user_number_layout = standardized_input_field_generator(self,"Törzs száma:",standardized_label_width,standardized_input_width)
         #Input 6:
-        login_name_layout = QHBoxLayout()
-
-        login_name_label = QLabel("Login Név:")
-        login_name_label.setFixedWidth(standardized_label_width)
-
-        self.login_name_input = QLineEdit()
-        self.login_name_input.setFixedWidth(standardized_input_width)
-
-        login_name_layout.addWidget(login_name_label,alignment=Qt.AlignmentFlag.AlignRight)
-        login_name_layout.addWidget(self.login_name_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
-
+        login_name_layout = standardized_input_field_generator(self,"Login Név:",standardized_label_width,standardized_input_width)
         #Input 7:
-        organisation_unit_layout = QHBoxLayout()
-
-        organisation_unit_label = QLabel("Szervezeti egység:")
-        organisation_unit_label.setFixedWidth(standardized_label_width)
-
-        self.organization_unit_input = QLineEdit()
-        self.organization_unit_input.setFixedWidth(standardized_input_width)
-
-        organisation_unit_layout.addWidget(organisation_unit_label,alignment=Qt.AlignmentFlag.AlignRight)
-        organisation_unit_layout.addWidget(self.organization_unit_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
-
+        organisation_unit_layout = standardized_input_field_generator(self,"Szervezeti egység:",standardized_label_width,standardized_input_width)
         #Input 8:
-        phone_number_layout = QHBoxLayout()
-
-        phone_number_label = QLabel("Telefonszám:")
-        phone_number_label.setFixedWidth(standardized_label_width)
-
-        self.phone_number_input = QLineEdit()
-        self.phone_number_input .setFixedWidth(standardized_input_width)
-
-        phone_number_layout.addWidget(phone_number_label,alignment=Qt.AlignmentFlag.AlignRight)
-        phone_number_layout.addWidget(self.phone_number_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
-
+        phone_number_layout = standardized_input_field_generator(self,"Telefonszám:",standardized_label_width,standardized_input_width)
         #Input 9:
-        date_of_education_layout = QHBoxLayout()
-
-        date_of_education_label = QLabel("Oktatás Dátuma:")
-        date_of_education_label.setFixedWidth(standardized_label_width)
-
-        self.date_of_education_input = QLineEdit()
-        self.date_of_education_input.setFixedWidth(standardized_input_width)
-
-        date_of_education_layout.addWidget(date_of_education_label,alignment=Qt.AlignmentFlag.AlignRight)
-        date_of_education_layout.addWidget(self.date_of_education_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
-
+        date_of_education_layout = standardized_input_field_generator(self,"Oktatás Dátuma:",standardized_label_width,standardized_input_width)
         #Input 10:
-        education_serial_number_layout = QHBoxLayout()
-
-        education_serial_number_label = QLabel("Oktatási Azonosító:")
-        education_serial_number_label.setFixedWidth(standardized_label_width)
-
-        self.education_serial_number_input = QLineEdit()
-        self.education_serial_number_input.setFixedWidth(standardized_input_width)
-
-        education_serial_number_layout.addWidget(education_serial_number_label,alignment=Qt.AlignmentFlag.AlignRight)
-        education_serial_number_layout.addWidget(self.education_serial_number_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
-
+        education_serial_number_layout = standardized_input_field_generator(self,"Oktatási Azonosító:",standardized_label_width,standardized_input_width)
         #Input 11:
-        server_administrator_layout = QHBoxLayout()
-
-        server_administrator_label = QLabel("Rendszer Adminisztrátor:")
-        server_administrator_label.setFixedWidth(standardized_label_width)
-
-        self.server_administrator_input = QLineEdit()
-        self.server_administrator_input.setFixedWidth(standardized_input_width)
-
-        server_administrator_layout.addWidget(server_administrator_label,alignment=Qt.AlignmentFlag.AlignRight)
-        server_administrator_layout.addWidget(self.server_administrator_input,alignment=Qt.AlignmentFlag.AlignLeft)
-
+        server_administrator_layout = standardized_input_field_generator(self,"Rendszer Adminisztrátor:",standardized_label_width,standardized_input_width)
         """
         #Checkbox items:
         """
         #Checkbox 1:
-        checkbox_widget = QWidget()
         checkbox_user_layout = QHBoxLayout()
 
         new_user_label = QRadioButton("Új Felhasználó:")
         change_user_label = QRadioButton("Módosítás:")
         cancel_user_label = QRadioButton("Visszavonás:")
+
+        checkbox_user_layout.setContentsMargins(0,0,0,0)
+        checkbox_user_layout.setSpacing(10)
 
         checkbox_user_layout.addWidget(new_user_label,alignment=Qt.AlignmentFlag.AlignCenter)
         checkbox_user_layout.addWidget(change_user_label,alignment=Qt.AlignmentFlag.AlignCenter)
@@ -326,6 +229,8 @@ class MainWindow(QMainWindow):
 
         # Form hozzá adása a layouthoz.
         layout.addLayout(form_layout)
+        layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum))
+        
 
         # Ez itt az adatbevétel gombja
         grab_data_button = QPushButton("Adatbevitel")
