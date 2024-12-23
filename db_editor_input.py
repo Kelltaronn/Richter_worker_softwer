@@ -34,7 +34,7 @@ def grab_data(self):
 """
 Az adat feldolgozó egység a beolvasott adat és az excell között.
 """
-
+{"system_serial_name":'Nem tudom', "system_owner":'RGK', "user_name":'Varga Katalin', "work_task":'Gépész', "user_number":'28193', "login_name":'User1', "organization_unit":'RGK', "phone_number":'06202850417', "date_of_education":'20240603', "education_serial_number":'2343fd', "server_administrator":'Admin'}
 def process_data(data):
      # Ez majd át kell írni itt hogy behívja az excell fájl beolvassa egy dataframeként és egy seriesé alakitva,
         #Ide kell egy open file funció lehet több funkció is használja majd ezt.

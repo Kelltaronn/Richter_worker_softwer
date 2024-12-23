@@ -4,6 +4,7 @@ A szükséges könyvtár betöltések és egyéb futás előtti  műveletek hely
 import pandas as pd
 from File_searching_module import open_file_system
 from open_file import open_file
+from openpyxl import load_workbook
 #Import's:
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget, 
@@ -462,6 +463,7 @@ class MainWindow(QMainWindow):
             
         )
         print(user_data)
+        # Ez egy User objectet dob vissza a kimeneten.
         return user_data
     """
     Az adat feldolgozó egység a beolvasott adat és az excell között.
@@ -471,21 +473,43 @@ class MainWindow(QMainWindow):
         if data is None:
             QMessageBox.warning(self, "Warning", "Nincs feldolgozható adat!")
             return
-        else:
-     # Ez majd át kell írni itt hogy behívja az excell fájl beolvassa egy dataframeként és egy seriesé alakitva,
-        #Ide kell egy open file funció lehet több funkció is használja majd ezt.
-            df = pd.read_excel("Névsor-jogigénylő_v4.252.xlsm","új stuktúra")
-            input_data = pd.DataFrame([data])
-            print(input_data)
-            updated_df = pd.concat([df,input_data],ignore_index=True)
-
-
-            print(updated_df)
+        
+        # Excel fájl betöltése DataFrame-be
+        file_path = "Névsor-jogigénylő_v4.252.xlsm"
+        sheet_name = "új stuktúra"
+        df = pd.read_excel(file_path, sheet_name=sheet_name, engine="openpyxl")
+        
+        # Az új adat objektummá alakítása
+        input_data = {
+            "System Serial Name": data.system_serial_name,
+            "System Owner": data.system_owner,
+            "Név": data.user_name,
+            "Feladatkör (szerepkörök)": data.work_task,
+            "Tsz.": data.user_number,
+            "Login Name": data.login_name,
+            "Gép Üzemrésze\n (NH, H, \nNH-H)": data.organization_unit,
+            "Phone Number": data.phone_number,
+            "Date of Education": data.date_of_education,
+            "Igénylőlap azonosító száma (kiadás)": data.education_serial_number,
+            "Server Administrator": data.server_administrator,
+        }
+        input_series = pd.Series(input_data)
+        
+        # Új adat hozzáadása a DataFrame-hez
+        df = pd.concat([df, input_series.to_frame().T], ignore_index=True)
+        
+        # Excel fájl frissítése
+        print(df)
+        with pd.ExcelWriter(file_path, engine="openpyxl", mode="a", if_sheet_exists="overlay") as writer:
+            df.to_excel(writer, sheet_name=sheet_name, index=False)
+        
+        QMessageBox.information(self, "Info", "Az adatokat sikeresen hozzáadtuk az Excel táblához!")
 
 
     """
     Ez itt a kereső alkalmazás amely  választható feltételekkel ez fog a pandának át dobni egy listát vagy egy hashmappet
     hogy abból keressen ezt még végig kéne azért gondolni.
+
     """
 
     def perform_search(self):
