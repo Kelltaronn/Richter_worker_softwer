@@ -1,8 +1,9 @@
 """
 A szükséges könyvtár betöltések és egyéb futás előtti  műveletek helyei
 """
+import pandas as pd
 from File_searching_module import open_file_system
-from error_handling_messages import warning_error_message
+from open_file import open_file
 #Import's:
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget, 
@@ -27,11 +28,80 @@ from PyQt6.QtWidgets import (QWidget,
 from Standardized_input_field import standardized_input_field_generator
 
 
+
 """
 Ez A szoftver GUI-ja itt változtathatóak az oldalak számai funkciói a rajtuk lévő elemek mennyisége és minősége.
 
 A MainWindow class foglalja magába mind ezt.
 """
+class User():
+    def __init__(self,
+                 system_serial_name,
+                 system_owner,
+                 user_name,
+                 work_task,
+                 user_number,
+                 login_name,
+                 organization_unit,
+                 phone_number,
+                 date_of_education,
+                 education_serial_number,
+                 server_administrator,
+                 ):
+        self.system_serial_name = system_serial_name
+        self.system_owner = system_owner
+        self.user_name = user_name
+        self.work_task = work_task
+        self.user_number = user_number
+        self.login_name = login_name
+        self.organization_unit = organization_unit
+        self.phone_number = phone_number
+        self.date_of_education = date_of_education
+        self.education_serial_number = education_serial_number
+        self.server_administrator = server_administrator
+
+    def __repr__(self):
+        return (f"User("
+                f"system_serial_name={self.system_serial_name!r}, "
+                f"system_owner={self.system_owner!r}, "
+                f"user_name={self.user_name!r}, "
+                f"work_task={self.work_task!r}, "
+                f"user_number={self.user_number!r}, "
+                f"login_name={self.login_name!r}, "
+                f"organization_unit={self.organization_unit!r}, "
+                f"phone_number={self.phone_number!r}, "
+                f"date_of_education={self.date_of_education!r}, "
+                f"education_serial_number={self.education_serial_number!r}, "
+                f"server_administrator={self.server_administrator!r})")
+
+def make_user(
+        system_serial_name,
+        system_owner,
+        user_name,
+        work_task,
+        user_number,
+        login_name,
+        organization_unit,
+        phone_number,
+        date_of_education,
+        education_serial_number,
+        server_administrator,
+                ):
+    user = User(
+        system_serial_name,
+        system_owner,
+        user_name,
+        work_task,
+        user_number,
+        login_name,
+        organization_unit,
+        phone_number,
+        date_of_education,
+        education_serial_number,
+        server_administrator,
+                )
+    return user
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -146,41 +216,28 @@ class MainWindow(QMainWindow):
 
         # Itt csinálom meg az egymás alatt lévő input dobozokat.
         form_layout = QVBoxLayout()
-        """
-        próba generátor:
-        def standardized input_field generator(self,name_of_the_generator,standardized width):
-            layout = QHBoxLayout()
-
-            label = QLabel(name_of_the_generator)
-            label.setFixedWidth(standardized_label_width)
-
-            name_input = QLineEdit()
-            name_input.setFixedWidth(standardized_input_width)
-            layout.addWidget(label,aligment=Qt.AligmentFlag.AlignRight)
-            layout.addWidget(name_input,aligment=Qt.AligmentFlag.AlignLeft)
-        """
         #Input 1:
-        system_serial_name_layout =  standardized_input_field_generator(self,"Rendszer Azonosítója és Megnvezése:",standardized_label_width,standardized_input_width)
+        system_serial_name_layout, self.system_serial_name_input =  standardized_input_field_generator(self,"Rendszer Azonosítója és Megnvezése:",standardized_label_width,standardized_input_width)
         #Input 2:.
-        system_owner_layout = standardized_input_field_generator(self,"Rendszer Tulajdonos:",standardized_label_width,standardized_input_width)
+        system_owner_layout,self.system_owner_input = standardized_input_field_generator(self,"Rendszer Tulajdonos:",standardized_label_width,standardized_input_width)
         #Input 3:
-        user_name_layout = standardized_input_field_generator(self,"Felhasználó Neve:",standardized_label_width,standardized_input_width)
+        user_name_layout,self.user_name_input = standardized_input_field_generator(self,"Felhasználó Neve:",standardized_label_width,standardized_input_width)
         #Input 4:
-        work_task_layout = standardized_input_field_generator(self,"Felhasznaló Feladatköre a rendszerben",standardized_label_width,standardized_input_width)
+        work_task_layout,self.work_task_input = standardized_input_field_generator(self,"Felhasznaló Feladatköre a rendszerben",standardized_label_width,standardized_input_width)
         #Input 5:
-        user_number_layout = standardized_input_field_generator(self,"Törzs száma:",standardized_label_width,standardized_input_width)
+        user_number_layout,self.user_number_input = standardized_input_field_generator(self,"Törzs száma:",standardized_label_width,standardized_input_width)
         #Input 6:
-        login_name_layout = standardized_input_field_generator(self,"Login Név:",standardized_label_width,standardized_input_width)
+        login_name_layout,self.login_name_input = standardized_input_field_generator(self,"Login Név:",standardized_label_width,standardized_input_width)
         #Input 7:
-        organisation_unit_layout = standardized_input_field_generator(self,"Szervezeti egység:",standardized_label_width,standardized_input_width)
+        organisation_unit_layout,self.organisation_unit_input = standardized_input_field_generator(self,"Szervezeti egység:",standardized_label_width,standardized_input_width)
         #Input 8:
-        phone_number_layout = standardized_input_field_generator(self,"Telefonszám:",standardized_label_width,standardized_input_width)
+        phone_number_layout,self.phone_number_input = standardized_input_field_generator(self,"Telefonszám:",standardized_label_width,standardized_input_width)
         #Input 9:
-        date_of_education_layout = standardized_input_field_generator(self,"Oktatás Dátuma:",standardized_label_width,standardized_input_width)
+        date_of_education_layout,self.date_of_education_input = standardized_input_field_generator(self,"Oktatás Dátuma:",standardized_label_width,standardized_input_width)
         #Input 10:
-        education_serial_number_layout = standardized_input_field_generator(self,"Oktatási Azonosító:",standardized_label_width,standardized_input_width)
+        education_serial_number_layout,self.education_serial_number_input = standardized_input_field_generator(self,"Oktatási Azonosító:",standardized_label_width,standardized_input_width)
         #Input 11:
-        server_administrator_layout = standardized_input_field_generator(self,"Rendszer Adminisztrátor:",standardized_label_width,standardized_input_width)
+        server_administrator_layout,self.server_administrator_input = standardized_input_field_generator(self,"Rendszer Adminisztrátor:",standardized_label_width,standardized_input_width)
         """
         #Checkbox items:
         """
@@ -203,12 +260,10 @@ class MainWindow(QMainWindow):
         self.user_action_group.addButton(change_user_label, id=2)
         self.user_action_group.addButton(cancel_user_label, id=3)
 
+
         """
         #Az előző text inputokat hozzáadás a  layouthoz:
         """
-
-
-
         # Az Indexelt text inputok hozzáadása az formhoz:
         form_layout.addLayout(system_serial_name_layout)
         form_layout.addLayout(system_owner_layout)
@@ -229,12 +284,15 @@ class MainWindow(QMainWindow):
 
         # Form hozzá adása a layouthoz.
         layout.addLayout(form_layout)
+        # Form méretek megadása:
         layout.addSpacerItem(QSpacerItem(20, 10, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum))
+
+
         
 
         # Ez itt az adatbevétel gombja
         grab_data_button = QPushButton("Adatbevitel")
-        grab_data_button.clicked.connect(self.grab_data) #Ha ezt itt lenyomom itt az adat később panda bekötése a funkcióba.
+        grab_data_button.clicked.connect(lambda: self.process_data(self.grab_data()))
         layout.addWidget(grab_data_button)
 
         # Vissza gomb:
@@ -387,23 +445,42 @@ class MainWindow(QMainWindow):
     Ez a hozzáadás fülön lévő adat grabber amely az egyes adatokat  megfogja és átadja a funkciónak.
     """
     def grab_data(self):
-        # Ez a funkció kiveszi az adato és meghívja a feldolgozás funkciót.
-        # Lehet később összekéne olvasztani ha nem szükséges máshonnan adatot mozgatni!!!!
-        name = self.name_input.text()
-        age = self.age_input.text()
-        profession = self.profession_input.text()
-        self.process_data(name, age, profession)
-        print("I grabbed data")
-
-
+        # Retrieve the current values from the input fields
+        
+        user_data = make_user(
+            self.system_serial_name_input.text(),
+            self.system_owner_input.text(),
+            self.user_name_input.text(),
+            self.work_task_input.text(),
+            self.user_number_input.text(),
+            self.login_name_input.text(),
+            self.organisation_unit_input.text(),
+            self.phone_number_input.text(),
+            self.date_of_education_input.text(),
+            self.education_serial_number_input.text(),
+            self.server_administrator_input.text(),
+            
+        )
+        print(user_data)
+        return user_data
     """
     Az adat feldolgozó egység a beolvasott adat és az excell között.
     """
+    
+    def process_data(self, data):
+        if data is None:
+            QMessageBox.warning(self, "Warning", "Nincs feldolgozható adat!")
+            return
+        else:
+     # Ez majd át kell írni itt hogy behívja az excell fájl beolvassa egy dataframeként és egy seriesé alakitva,
+        #Ide kell egy open file funció lehet több funkció is használja majd ezt.
+            df = pd.read_excel("Névsor-jogigénylő_v4.252.xlsm","új stuktúra")
+            input_data = pd.DataFrame([data])
+            print(input_data)
+            updated_df = pd.concat([df,input_data],ignore_index=True)
 
-    def process_data(self, name, age, profession):
-        # Ez majd át kell írni itt hogy behívja az excell fájl beolvassa egy dataframeként és egy seriesé alakitva,
-        # hozzá rakja  majd a további adatot.
-        print(f"Feldolgozott adat:\nNév: {name}\nKor: {age}\nBeosztás: {profession}")
+
+            print(updated_df)
 
 
     """
@@ -460,16 +537,3 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Az elem törölve", "A kiválasztott elem kilett törölve.")
         else:
             QMessageBox.warning(self, "Nincs kiválaszott elem", "Kérlek válaszd melyik elemet szertnéd tölteni.")
-    
-
-    """
-    A Fájl tallózás rendszer megírása:
-    """
-"""
-    def open_file_system(self):
-        file_dialog = QFileDialog()
-        file_path = file_dialog.getOpenFileName(self,"Fájl Keresése","",filter="*.txt")
-
-        if file_path:
-            print(f"Selected file: {file_path}")  # Do something with the selected file path
-"""

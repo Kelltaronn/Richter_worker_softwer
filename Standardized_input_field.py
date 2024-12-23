@@ -21,5 +21,5 @@ def standardized_input_field_generator(self,name_of_the_generator,standardized_l
     layout.addWidget(label,alignment=Qt.AlignmentFlag.AlignRight)
     layout.addWidget(name_input,alignment=Qt.AlignmentFlag.AlignLeft)
     print("Létrehoztam a Labelt = {} és az input fieldet".format(name_of_the_generator))
-    return layout
+    return layout ,name_input
 
