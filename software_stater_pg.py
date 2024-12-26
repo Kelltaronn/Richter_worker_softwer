@@ -314,35 +314,101 @@ class MainWindow(QMainWindow):
         self.page2 = QWidget()
         layout = QVBoxLayout()
 
-        # Ez a kikapcsolható  név alapú kereső mező:
-        self.name_checkbox = QCheckBox("Keresés Név alapján:")
-        self.name_input = QLineEdit()
-        self.name_input.setEnabled(False)  # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+        # Ez a kikapcsolható  Törzsszám alapú kereső mező:
+        self.user_number_checkbox = QCheckBox("Keresés Törzsszám alapján:")
+        self.user_number_input = QLineEdit()
+        self.user_number_input.setEnabled(False)  # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
 
-        # Ez a kikapcsolható  kor alapú kereső mező:
-        self.age_checkbox = QCheckBox("Keresés Kor alapján")
-        self.age_input = QLineEdit()
-        self.age_input.setEnabled(False)  # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+        # Ez a kikapcsolható  Név alapú kereső mező:
+        self.user_name_checkbox = QCheckBox("Keresés Név alapján")
+        self.user_name_input = QLineEdit()
+        self.user_name_input.setEnabled(False)  # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
 
-        # Ez a kikapcsolható  beosztás alapú kereső mező:
-        self.profession_checkbox = QCheckBox("Keresés beosztás alapján:")
-        self.profession_input = QLineEdit()
-        self.profession_input.setEnabled(False)  # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+        # Ez a kikapcsolható  Gépüzemrészére alapú kereső mező:
+        self.organization_unit_checkbox = QCheckBox("Keresés beosztás alapján:")
+        self.organisation_unit_input = QLineEdit()
+        self.organisation_unit_input.setEnabled(False)  # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+        
+        self.system_serial_name_checkbox = QCheckBox("Keresés SYSID alapján:")
+        self.system_serial_name_input = QLineEdit()
+        self.system_serial_name_input.setEnabled(False) # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+
+        self.system_name_checkbox= QCheckBox("Keresés Rendszer megnevezés alapján:")
+        self.system_name_input = QLineEdit()
+        self.system_name_input.setEnabled(False) # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+
+        self.login_name_checkbox = QCheckBox("Keresés Login Felhasználó kör alapján:")
+        self.login_name_input= QLineEdit()
+        self.login_name_input.setEnabled(False) # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+
+        self.work_task_checkbox = QCheckBox("Keresés Feladatkör alapján:")
+        self.work_task_input = QLineEdit()
+        self.work_task_input.setEnabled(False) # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+
+        self.education_serial_number_checkbox = QCheckBox("Keresés Igénylőlap azonosító (kiadás) alapján:")
+        self.education_serial_number_input = QLineEdit()
+        self.education_serial_number_input.setEnabled(False) # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+
+        self.education_serial_number_cancel_checkbox = QCheckBox("Keresés Igénylőlap azonosító (Visszavonás) alapján:")
+        self.education_serial_number_cancel_input = QLineEdit()
+        self.education_serial_number_cancel_input.setEnabled(False) # Ezek a sorok meglesznek ismételve alapból kilesz kapcsolva az összes.
+
+        self.job_status_checkbox = QCheckBox("Keresés Státusz alapján:")
+        self.job_status_input = QLineEdit()
+        self.job_status_input.setEnabled(False)
+
+        self.clearance_level_checkbox = QCheckBox("Keresés Gépfelhasználói szint alapján:")
+        self.clearance_level_input = QLineEdit()
+        self.clearance_level_input.setEnabled(False)
 
         # Itt kel bekotni a  ki-be kapcsoló gombokat a mezőkhöz.
-        self.name_checkbox.stateChanged.connect(lambda: self.name_input.setEnabled(self.name_checkbox.isChecked()))
-        self.age_checkbox.stateChanged.connect(lambda: self.age_input.setEnabled(self.age_checkbox.isChecked()))
-        self.profession_checkbox.stateChanged.connect(lambda: self.profession_input.setEnabled(self.profession_checkbox.isChecked()))
+        self.user_number_checkbox.stateChanged.connect(lambda: self.user_number_input.setEnabled(self.user_number_checkbox.isChecked()))
+        self.user_name_checkbox.stateChanged.connect(lambda: self.user_name_input.setEnabled(self.user_name_checkbox.isChecked()))
+        self.organization_unit_checkbox.stateChanged.connect(lambda: self.organisation_unit_input.setEnabled(self.organization_unit_checkbox.isChecked()))
+        self.system_serial_name_checkbox.stateChanged.connect(lambda: self.system_serial_name_input.setEnabled(self.system_serial_name_checkbox.isChecked()))
+        self.system_name_checkbox.stateChanged.connect(lambda: self.system_name_input.setEnabled(self.system_name_checkbox.isChecked()))
+        self.login_name_checkbox.stateChanged.connect(lambda: self.login_name_input.setEnabled(self.login_name_checkbox.isChecked()))
+        self.work_task_checkbox.stateChanged.connect(lambda: self.work_task_input.setEnabled(self.work_task_checkbox.isChecked()))
+        self.education_serial_number_checkbox.stateChanged.connect(lambda: self.education_serial_number_input.setEnabled(self.education_serial_number_checkbox.isChecked()))
+        self.education_serial_number_cancel_checkbox.stateChanged.connect(lambda: self.education_serial_number_cancel_input.setEnabled(self.education_serial_number_cancel_checkbox.isChecked()))
+        self.job_status_checkbox.stateChanged.connect(lambda: self.job_status_input.setEnabled(self.job_status_checkbox.isChecked()))
+        self.clearance_level_checkbox.stateChanged.connect(lambda: self.clearance_level_input.setEnabled(self.clearance_level_checkbox.isChecked()))
 
-        # Ez betölti  az egyes már előzőleg meghatárott gombokat mezőket.
+
+        # Ez betölti  az egyes már előzőleg meghatárott gombokat mezőket. Ez a kereseő motor bevitelének a GUI-ja
         #FONTOS A SORREND SZÁMÍT!!!!!!!!!!!!!!!!
-        layout.addWidget(self.name_checkbox)
-        layout.addWidget(self.name_input)
-        layout.addWidget(self.age_checkbox)
-        layout.addWidget(self.age_input)
-        layout.addWidget(self.profession_checkbox)
-        layout.addWidget(self.profession_input)
+        layout.addWidget(self.user_number_checkbox)
+        layout.addWidget(self.user_number_input)
 
+        layout.addWidget(self.user_name_checkbox)
+        layout.addWidget(self.user_name_input)
+
+        layout.addWidget(self.organization_unit_checkbox)
+        layout.addWidget(self.organisation_unit_input)
+
+        layout.addWidget(self.system_serial_name_checkbox)
+        layout.addWidget(self.system_serial_name_input)
+
+        layout.addWidget(self.system_name_checkbox)
+        layout.addWidget(self.system_name_input)
+
+        layout.addWidget(self.login_name_checkbox)
+        layout.addWidget(self.login_name_input)
+
+        layout.addWidget(self.work_task_checkbox)
+        layout.addWidget(self.work_task_input)
+
+        layout.addWidget(self.education_serial_number_checkbox)
+        layout.addWidget(self.education_serial_number_input) 
+
+        layout.addWidget(self.education_serial_number_cancel_checkbox)
+        layout.addWidget(self.education_serial_number_cancel_input)
+
+        layout.addWidget(self.job_status_checkbox)
+        layout.addWidget(self.job_status_input)
+
+        layout.addWidget(self.clearance_level_checkbox)
+        layout.addWidget(self.clearance_level_input)         
         # A kereső gomb:
         search_button = QPushButton("Keresés a beírt adatok alapján")
         search_button.clicked.connect(self.perform_search)
@@ -480,6 +546,8 @@ class MainWindow(QMainWindow):
         df = pd.read_excel(file_path, sheet_name=sheet_name, engine="openpyxl")
         
         # Az új adat objektummá alakítása
+        # ITT MAJD MÉG MÓDOSÍTANI KELL ÉS STANDARDIZÁLNI KELL AZ INPUTOKAT. 
+        # Hogy miből lehet választani illetve hogy mennyi kell.
         input_data = {
             "System Serial Name": data.system_serial_name,
             "System Owner": data.system_owner,
@@ -514,15 +582,42 @@ class MainWindow(QMainWindow):
 
     def perform_search(self):
         # Ez lesz a return a feltételeket fogja tartalmazni.
+        #z egy üres hashmap amelyet feltöltünk feltétekkel.
         search_criteria = {}
 
         # Itt adod hozzá az egyes feltételeket, if-ként ad hozzá a többit különben kilép.
-        if self.name_checkbox.isChecked():
-            search_criteria["Név"] = self.name_input.text()
-        if self.age_checkbox.isChecked():
-            search_criteria["Kor"] = self.age_input.text()
-        if self.profession_checkbox.isChecked():
-            search_criteria["Beosztás"] = self.profession_input.text()
+        if self.user_number_checkbox.isChecked():
+            search_criteria["torzsszam"] = self.user_number_input.text()
+
+        if self.user_name_checkbox.isChecked():
+            search_criteria["nev"] = self.user_name_input.text()
+
+        if self.organization_unit_checkbox.isChecked():
+            search_criteria["gepuzemreszere"] = self.organisation_unit_input.text()
+
+        if self.system_serial_name_checkbox.isChecked():
+            search_criteria["SYSID"] = self.system_serial_name_checkbox.text()
+
+        if self.system_name_checkbox.isChecked():
+            search_criteria["rendszermegnevezese"] = self.system_name_input.text()
+
+        if self.login_name_checkbox.isChecked():
+            search_criteria["login_felhasznaloikor"] = self.login_name_input.text()
+
+        if self.work_task_checkbox.isChecked():
+            search_criteria["feladatkor"] = self.work_task_input.text()    
+
+        if self.education_serial_number_checkbox.isChecked():
+            search_criteria["igenylolap_azonositoszam_kiadas"] = self.education_serial_number_input.text()
+
+        if self.education_serial_number_checkbox.isChecked():
+            search_criteria["igenylolap_azonositoszam_kiadas"] = self.education_serial_number_input.text()
+
+        if self.job_status_checkbox.isChecked():
+            search_criteria["statusz"] = self.job_status_input.text()
+        
+        if self.clearance_level_checkbox.isChecked():
+            search_criteria["gepfelhasznaloi_szint"] = self.clearance_level_input.text()
 
         print(f"A keresési feltételek: {search_criteria}")
         
@@ -538,7 +633,7 @@ class MainWindow(QMainWindow):
 
         # Váltás az eredményekre:
         self.show_page5()
-        print("show")
+        print("megnyittotam az 5-ös oldalt (EREDMÉNYEKET)")
 
         # Mock search funkció  amely az adott kritériák által  kiválasztott eredményket.
     def mock_search_results(self, criteria):
